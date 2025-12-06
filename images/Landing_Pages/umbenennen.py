@@ -1,7 +1,6 @@
 import os
 import shutil
 
-# Liste der Städte (wie von dir vorgegeben)
 staedte = [
     "Ahrensburg",
     "Ammersbek",
@@ -34,7 +33,7 @@ staedte = [
     "Hamburg Marienthal",
     "Hamburg Horn",
     "Hamburg Hamm",
-    "Lemsahl - Mellingstedt",
+    "Lemsahl Mellingstedt",
     "Hamburg Allermöhe",
     "Hamburg Bergedorf",
     "Hamburg Billbrook",
@@ -43,22 +42,23 @@ staedte = [
     "Hamburg Mümmelmannsberg"
 ]
 
-# Pfad zum Quellordner mit den .webp Dateien
 quelle_ordner = "Ahrensburg2"
-
-# Alle Dateien im Quelleordner auflisten
 dateien = [f for f in os.listdir(quelle_ordner) if f.endswith(".webp")]
 
 for stadt in staedte:
-    ziel_ordner = stadt
-    os.makedirs(ziel_ordner, exist_ok=True)
-    
+    # Zielordner: Leerzeichen → _, Bindestrich bleibt
+    ordnername = stadt.replace(" ", "_")
+    os.makedirs(ordnername, exist_ok=True)
+
     for datei in dateien:
-        # Neuer Dateiname mit Stadtnamen ersetzt
+        # Ersetze "Ahrensburg" im Dateinamen durch den Stadtnamen
         neuer_dateiname = datei.replace("Ahrensburg", stadt)
+        # Leerzeichen → _
+        neuer_dateiname = neuer_dateiname.replace(" ", "_")
+
         quelle_datei = os.path.join(quelle_ordner, datei)
-        ziel_datei = os.path.join(ziel_ordner, neuer_dateiname)
-        
+        ziel_datei = os.path.join(ordnername, neuer_dateiname)
+
         shutil.copy2(quelle_datei, ziel_datei)
 
 print("Fertig! Dateien wurden kopiert und umbenannt.")
